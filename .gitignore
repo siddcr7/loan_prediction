@@ -1,0 +1,8 @@
+loan_prediction.egg-info/
+venv/
+# data/
+*.pkl 
+
+models/
+
+loan_prediction.csv 
