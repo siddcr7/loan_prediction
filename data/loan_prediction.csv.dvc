@@ -1,0 +1,5 @@
+outs:
+- md5: 240ef44ab6d93e17e60bc9867262c2ee
+  size: 32006
+  hash: md5
+  path: loan_prediction.csv
