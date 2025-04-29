@@ -3,6 +3,7 @@ venv/
 # data/
 *.pkl 
 
-models/
+loan_model.pkl 
+
 
 loan_prediction.csv 
