@@ -1,9 +1,9 @@
 # loan_prediction.egg-info/
 venv/
 # data/
-*.pkl 
+# *.pkl 
 
-loan_model.pkl 
+# loan_model.pkl 
 
 
 loan_prediction.csv 
