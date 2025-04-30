@@ -1,17 +1,37 @@
-# api/main.py
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 from api.schemas import LoanApplication, PredictionResponse
 from src.utils import load_model, make_prediction
+
+# Global model variable
+model = None
+
+import joblib
+# Initialize FastAPI app
+
+
+# Lifespan event to replace deprecated @app.on_event("startup")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global model
+    try:
+        model = load_model()
+        print("✅ Model loaded successfully.")
+    except Exception as e:
+        print(f"❌ Error loading model: {e}")
+        model = None
+    yield
+    # Optional: cleanup code here (on shutdown)
 
 # Initialize FastAPI app
 app = FastAPI(
     title="Loan Prediction API",
     description="API for predicting loan approval status",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
-
 # Add CORS middleware to allow requests from the Streamlit app
 app.add_middleware(
     CORSMiddleware,
@@ -21,22 +41,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load the model at startup
-@app.on_event("startup")
-async def startup_event():
-    global model
-    try:
-        model = load_model()
-    except Exception as e:
-        # Log error but let the application start
-        print(f"Error loading model: {e}")
-        model = None
 
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Loan Prediction API"}
 
 @app.post("/predict", response_model=PredictionResponse)
+
 def predict(application: LoanApplication):
     """
     Make a prediction based on loan application data
@@ -45,8 +56,8 @@ def predict(application: LoanApplication):
     #     raise HTTPException(status_code=503, detail="Model not available")
     
     # Convert pydantic model to dict
-    input_data = application.dict()
-    
+    input_data = application.model_dump()
+    model=joblib.load('models/loan_model.pkl')
     # Process inputs to match model expectations
     input_data["Dependents"] = str(input_data["Dependents"])
     input_data["Credit_History"] = float(input_data["Credit_History"])

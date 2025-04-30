@@ -2,6 +2,7 @@
 import argparse
 import pandas as pd
 from pathlib import Path
+import mlflow
 
 from src.config import DATA_FILE, MODEL_FILE
 from src.data_processing import load_data, preprocess_data, split_train_test
@@ -18,21 +19,36 @@ def train():
     
     print("Splitting data into train and test sets...")
     X_train, X_test, y_train, y_test = split_train_test(data)
+    with mlflow.start_run():
+        mlflow.log_param("data_file", DATA_FILE)
+        mlflow.log_param("model_file", MODEL_FILE)
+        mlflow.log_param("train_size", len(X_train))
+        mlflow.log_param("test_size", len(X_test))
     
-    print("Building and training model...")
-    model = build_model()
-    model.fit(X_train, y_train)
+        print("Building and training model...")
+        model = build_model()
+        model.fit(X_train, y_train)
     
-    print("Evaluating model...")
-    metrics = evaluate_model(model, X_test, y_test)
-    print(f"Accuracy: {metrics['accuracy']:.4f}")
-    print("Classification Report:")
-    print(metrics['report'])
-    
-    print("Saving model...")
-    save_model(model, MODEL_FILE)
-    
-    return model
+        mlflow.log_param("model_type", "RandomForestClassifier")
+        mlflow.log_param("n_estimators", model['classifier'].n_estimators)
+        mlflow.log_param("max_depth", model['classifier'].max_depth)
+
+
+        print("Evaluating model...")
+        metrics = evaluate_model(model, X_test, y_test)
+        print(f"Accuracy: {metrics['accuracy']:.4f}")
+
+        print("Classification Report:")
+        print(metrics['report'])
+        
+        print("Saving model...")
+        save_model(model, MODEL_FILE)
+        
+        mlflow.log_artifact(MODEL_FILE)
+        mlflow.log_metric("accuracy", metrics['accuracy'])
+        # log model
+        mlflow.sklearn.log_model(model['classifier'], "model")
+        return model
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train loan prediction model")

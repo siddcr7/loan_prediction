@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Projects/Complete/loan_prediction/mlruns/0/a5d9f5f9ca464d78b794d3a3b2c0ab12/artifacts
+end_time: 1745907523099
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a5d9f5f9ca464d78b794d3a3b2c0ab12
+run_name: painted-rook-719
+run_uuid: a5d9f5f9ca464d78b794d3a3b2c0ab12
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1745907507258
+status: 3
+tags: []
+user_id: Administrator
