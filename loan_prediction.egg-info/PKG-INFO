@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: loan_prediction
+Version: 0.1.0
+Summary: ML project for loan prediction
+Home-page: https://github.com/yourusername/loan-prediction
+Author: Siddharth
+Author-email: siddharthshirwadkar@gmail.com
+Keywords: machine learning,loan prediction,fastapi,streamlit
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: streamlit
+Requires-Dist: pydantic
+Requires-Dist: joblib
+Requires-Dist: pytest
+Requires-Dist: python-multipart
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: summary
