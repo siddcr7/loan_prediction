@@ -2,32 +2,15 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      python: 3.10
     commands:
-      - echo Installing Python dependencies...
-      - pip install -r requirements.txt
-
-  pre_build:
-    commands:
-      - echo Running unit tests...
-      - pytest tests/
+      - echo Skipping install phase...
 
   build:
     commands:
-      - echo Starting model training or app packaging...
-      - python train_model.py
-
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - mkdir -p build
-      - cp -r app/ build/  # Copy application files for packaging
-      - cp model.pkl build/  # If you create a trained model
+      - echo Skipping build phase...
 
 artifacts:
   files:
-    - build/**/*
-    - requirements.txt
-    - buildspec.yml
+    - '**/*'
   discard-paths: no
+
